@@ -4,7 +4,7 @@ import subprocess
 
 
 def fact():
-    '''Return the machine type: phyiscal, vmware, parallels or Unknown'''
+    '''Return the machine type: physical, vmware, parallels or Unknown'''
     try:
         proc = subprocess.Popen(['/usr/sbin/system_profiler', '-xml',
                                  'SPEthernetDataType', 'SPHardwareDataType'],
