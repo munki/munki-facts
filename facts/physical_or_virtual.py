@@ -23,4 +23,4 @@ def fact():
     except (IOError, OSError):
         stdout = 'Unknown'
 
-    return {'machine_type': stdout.strip()}
+    return {'physical_or_virtual': stdout.strip()}
