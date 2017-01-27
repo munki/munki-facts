@@ -14,3 +14,6 @@ def fact():
         pass
 
     return {'crashplan_username': username}
+
+if __name__ == '__main__':
+    print fact()

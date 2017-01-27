@@ -12,3 +12,7 @@ def fact():
         stdout = 'Unknown'
 
     return {'sip_status': stdout.strip()}
+
+
+if __name__ == '__main__':
+    print fact()

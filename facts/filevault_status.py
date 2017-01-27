@@ -13,3 +13,6 @@ def fact():
 
     return {'filevault_status': stdout.strip()}
 
+
+if __name__ == '__main__':
+    print fact()

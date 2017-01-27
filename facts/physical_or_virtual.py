@@ -24,3 +24,7 @@ def fact():
         stdout = 'Unknown'
 
     return {'physical_or_virtual': stdout.strip()}
+
+
+if __name__ == '__main__':
+    print fact()

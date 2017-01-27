@@ -9,3 +9,7 @@ def fact():
     user_dirs = [item for item in os.listdir('/Users')
                  if item not in skip_names and not item.startswith('.')]
     return {'local_user_dirs': user_dirs}
+
+
+if __name__ == '__main__':
+    print fact()
