@@ -12,11 +12,11 @@ def fact():
         output, err = proc.communicate()
         plist = plistlib.readPlistFromString(output)
         name = plist[0]['_items'][0]['_name']
-        br_version = plist[1]['_items'][0]['boot_rom_version']
-        ethernet_vid = plist[0]['_items'][0]['spethernet_vendor-id']
         if name == 'iBridge':
             stdout = 'physical'
         else:
+            br_version = plist[1]['_items'][0]['boot_rom_version']
+            ethernet_vid = plist[0]['_items'][0]['spethernet_vendor-id']
             if 'VMW' in br_version:
                 stdout = 'vmware'
             elif '0x1ab8' in ethernet_vid:
