@@ -11,16 +11,20 @@ def fact():
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, err = proc.communicate()
         plist = plistlib.readPlistFromString(output)
+        name = plist[0]['_items'][0]['_name']
         br_version = plist[1]['_items'][0]['boot_rom_version']
         ethernet_vid = plist[0]['_items'][0]['spethernet_vendor-id']
-        if 'VMW' in br_version:
-            stdout = 'vmware'
-        elif '0x1ab8' in ethernet_vid:
-            stdout = 'parallels'
-        else:
+        if name == 'iBridge':
             stdout = 'physical'
+        else:
+            if 'VMW' in br_version:
+                stdout = 'vmware'
+            elif '0x1ab8' in ethernet_vid:
+                stdout = 'parallels'
+            else:
+                stdout = 'physical'
 
-    except (IOError, OSError):
+    except (IOError, KeyError, OSError):
         stdout = 'Unknown'
 
     return {'physical_or_virtual': stdout.strip()}
