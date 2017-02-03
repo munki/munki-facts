@@ -31,7 +31,7 @@ def is_virtual_machine():
 
 
 def get_machine_type():
-    '''Return the machine type: physical, vmware, parallels or
+    '''Return the machine type: physical, vmware, virtualbox, parallels or
     unknown_virtual'''
     if not is_virtual_machine():
         return 'physical'
