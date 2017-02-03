@@ -2,6 +2,7 @@
 
 import subprocess
 
+
 def fact():
     '''Return the current FileVault status for the startup disk'''
     try:

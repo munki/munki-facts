@@ -2,6 +2,7 @@
 
 import os
 
+
 def fact():
     '''Return the list of user home directories under /Users'''
     # skip_names should include any directories you wish to ignore

@@ -1,5 +1,6 @@
 '''Extract the current CrashPlan user from CrashPlan's config file'''
 
+
 def fact():
     '''Return CrashPlan user name'''
     cp_identity_file = '/Library/Application Support/CrashPlan/.identity'
@@ -14,6 +15,7 @@ def fact():
         pass
 
     return {'crashplan_username': username}
+
 
 if __name__ == '__main__':
     print fact()

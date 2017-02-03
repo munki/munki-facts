@@ -2,6 +2,7 @@
 
 import subprocess
 
+
 def fact():
     '''Return the current Gatekeeper status'''
     try:
