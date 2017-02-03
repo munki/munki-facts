@@ -1,4 +1,3 @@
-#!/usr/bin/python
 '''Returns a fact to indicate if this is a physical or virtual machine'''
 
 # sysctl function by Michael Lynn
@@ -47,6 +46,8 @@ def get_machine_type():
         br_version = plist[1]['_items'][0]['boot_rom_version']
         if 'VMW' in br_version:
             return 'vmware'
+        elif 'VirtualBox' in br_version:
+            return 'virtualbox'
         else:
             ethernet_vid = plist[0]['_items'][0]['spethernet_vendor-id']
             if '0x1ab8' in ethernet_vid:
