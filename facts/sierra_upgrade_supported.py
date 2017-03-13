@@ -132,7 +132,7 @@ def is_supported_system_version():
 
 def get_board_id():
     '''Returns our board-id'''
-    return io_key("board-id").bytes().tobytes()[0:-1]
+    return io_key("board-id").bytes().tobytes().rstrip('\0')
 
 
 def is_supported_board_id():
