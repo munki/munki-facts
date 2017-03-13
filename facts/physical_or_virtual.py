@@ -2,6 +2,7 @@
 
 # sysctl function by Michael Lynn
 # https://gist.github.com/pudquick/581a71425439f2cf8f09
+
 import plistlib
 import subprocess
 
@@ -10,7 +11,7 @@ from ctypes.util import find_library
 libc = CDLL(find_library('c'))
 
 
-def sysctl(name, isString=True):
+def sysctl(name, is_string=True):
     '''Wrapper for sysctl so we don't have to use subprocess'''
     size = c_uint(0)
     # Find out how big our buffer will be
@@ -19,13 +20,14 @@ def sysctl(name, isString=True):
     buf = create_string_buffer(size.value)
     # Re-run, but provide the buffer
     libc.sysctlbyname(name, buf, byref(size), None, 0)
-    if isString:
+    if is_string:
         return buf.value
     else:
         return buf.raw
 
 
 def is_virtual_machine():
+    '''Returns True if this is a VM, False otherwise'''
     cpu_features = sysctl('machdep.cpu.features').split()
     return 'VMM' in cpu_features
 
@@ -41,7 +43,7 @@ def get_machine_type():
         proc = subprocess.Popen(['/usr/sbin/system_profiler', '-xml',
                                  'SPEthernetDataType', 'SPHardwareDataType'],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output, err = proc.communicate()
+        output = proc.communicate()[0]
         plist = plistlib.readPlistFromString(output)
         br_version = plist[1]['_items'][0]['boot_rom_version']
         if 'VMW' in br_version:
