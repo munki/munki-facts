@@ -11,17 +11,16 @@
 # https://gist.github.com/pudquick/
 #         c7dd1262bd81a32663f0#file-get_platform-py-L22-L23
 
-import os
-import re
-import subprocess
 
 from ctypes import CDLL, c_uint, byref, create_string_buffer
 from ctypes.util import find_library
-libc = CDLL(find_library('c'))
+import os
 
 import objc
 from Foundation import NSBundle
 
+# glue to call C and Cocoa stuff
+libc = CDLL(find_library('c'))
 IOKit_bundle = NSBundle.bundleWithIdentifier_('com.apple.framework.IOKit')
 
 functions = [("IOServiceGetMatchingService", b"II@"),
@@ -34,8 +33,8 @@ objc.loadBundleFunctions(IOKit_bundle, globals(), functions)
 
 def io_key(keyname):
     return IORegistryEntryCreateCFProperty(
-        IOServiceGetMatchingService(0, 
-            IOServiceMatching("IOPlatformExpertDevice")), keyname, None, 0)
+        IOServiceGetMatchingService(
+            0, IOServiceMatching("IOPlatformExpertDevice")), keyname, None, 0)
 
 
 def sysctl(name, is_string=True):
