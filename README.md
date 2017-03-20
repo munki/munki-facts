@@ -1,4 +1,4 @@
-##Introduction
+## Introduction
 
 munki_facts.py is an "admin-provided conditions" script for Munki as described [here.](https://github.com/munki/munki/wiki/Conditional-Items#admin-provided-conditions)
 
@@ -8,7 +8,7 @@ Python modules that generate one or more facts live in the 'facts' subdirectory.
 
 Several sample fact modules are included.
 
-##Usage
+## Usage
 
 `munki_facts.py` and the `facts` directory should be installed in `/usr/local/munki/conditions`.
 `munki_facts.py` must be marked as executable.
