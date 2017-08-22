@@ -30,8 +30,8 @@ def main():
         try:
             module = imp.load_source(name, filename)
             facts.update(module.fact())
-        except (ImportError, AttributeError), err:
-            print >> sys.stderr, 'Error %s in file %s' % (err, filename)
+        except BaseException, err:
+            print >> sys.stderr, u'Error %s in file %s' % (err, filename)
 
     if facts:
         # Read the location of the ManagedInstallDir from ManagedInstall.plist
