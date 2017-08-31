@@ -34,11 +34,11 @@ def main():
             print >> sys.stderr, u'Error %s in file %s' % (err, filename)
 
     if facts:
-        # Handle cases when facts return NoneType - convert them to blank
+        # Handle cases when facts return None - convert them to empty
         # strings.
-        for k, v in facts.items():
-            if v is None:
-                facts[k] = ''
+        for key, value in facts.items():
+            if value is None:
+                facts[key] = ''
         # Read the location of the ManagedInstallDir from ManagedInstall.plist
         bundle_id = 'ManagedInstalls'
         pref_name = 'ManagedInstallDir'
