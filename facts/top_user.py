@@ -5,7 +5,7 @@ by @nathanperkins (GitHub)
 https://github.com/nathanperkins/
 '''
 
-from helpers.users import get_users
+from facts.helpers.users import get_users
 
 def fact():
     return {
