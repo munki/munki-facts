@@ -12,7 +12,7 @@ https://github.com/nathanperkins/
 
 import subprocess
 
-from helpers.users import get_users
+from facts.helpers.users import get_users
 
 search_groups = [
     # enter group names here
