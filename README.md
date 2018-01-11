@@ -17,3 +17,6 @@ Munki will run `munki_facts.py` and insert any facts it generates into the dicti
 
 Any additional fact modules (that you create or obtain from others) should be copied into the `/usr/local/munki/conditions/facts` directory.
 
+## More facts
+
+See https://github.com/munki/munki-facts/wiki/Community-Facts
