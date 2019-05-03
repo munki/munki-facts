@@ -30,7 +30,7 @@ def main():
         try:
             module = imp.load_source(name, filename)
             facts.update(module.fact())
-        except BaseException, err:
+        except BaseException as err:
             print >> sys.stderr, u'Error %s in file %s' % (err, filename)
 
     if facts:
@@ -51,7 +51,7 @@ def main():
         if os.path.exists(conditionalitemspath):
             try:
                 conditional_items = plistlib.readPlist(conditionalitemspath)
-            except (IOError, OSError, ExpatError), err:
+            except (IOError, OSError, ExpatError) as err:
                 pass
 
         # update the conditional items
@@ -60,7 +60,7 @@ def main():
         # and write them out
         try:
             plistlib.writePlist(conditional_items, conditionalitemspath)
-        except (IOError, OSError), err:
+        except (IOError, OSError) as err:
             print >> sys.stderr, 'Couldn\'t save conditional items: %s' % err
 
 
