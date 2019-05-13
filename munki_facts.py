@@ -2,6 +2,8 @@
 '''Processes python modules in the facts directory and adds the info they
 return to our ConditionalItems.plist'''
 
+from __future__ import absolute_import, print_function
+
 import imp
 import os
 import sys
@@ -31,7 +33,7 @@ def main():
             module = imp.load_source(name, filename)
             facts.update(module.fact())
         except BaseException as err:
-            print >> sys.stderr, u'Error %s in file %s' % (err, filename)
+            print(u'Error %s in file %s' % (err, filename), file=sys.stderr)
 
     if facts:
         # Handle cases when facts return None - convert them to empty
@@ -61,7 +63,7 @@ def main():
         try:
             plistlib.writePlist(conditional_items, conditionalitemspath)
         except (IOError, OSError) as err:
-            print >> sys.stderr, 'Couldn\'t save conditional items: %s' % err
+            print('Couldn\'t save conditional items: %s' % err, file=sys.stderr)
 
 
 if __name__ == "__main__":
