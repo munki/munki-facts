@@ -1,5 +1,7 @@
 '''Extract the current CrashPlan user from CrashPlan's config file'''
 
+from __future__ import print_function
+
 
 def fact():
     '''Return CrashPlan user name'''
@@ -18,4 +20,4 @@ def fact():
 
 
 if __name__ == '__main__':
-    print fact()
+    print(fact())

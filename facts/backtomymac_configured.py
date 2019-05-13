@@ -1,5 +1,7 @@
 '''Return a boolean indicating if BackToMyMac is configured on this machine'''
 
+from __future__ import absolute_import, print_function
+
 from SystemConfiguration import SCDynamicStoreCopyValue
 
 
@@ -12,4 +14,4 @@ def fact():
 
 
 if __name__ == '__main__':
-    print fact()
+    print(fact())

@@ -1,5 +1,7 @@
 '''Get a list of user home directories under /Users'''
 
+from __future__ import absolute_import, print_function
+
 import os
 
 
@@ -13,4 +15,4 @@ def fact():
 
 
 if __name__ == '__main__':
-    print fact()
+    print(fact())

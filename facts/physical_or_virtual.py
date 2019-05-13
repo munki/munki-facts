@@ -3,6 +3,8 @@
 # sysctl function by Michael Lynn
 # https://gist.github.com/pudquick/581a71425439f2cf8f09
 
+from __future__ import absolute_import, print_function
+
 import plistlib
 import subprocess
 
@@ -67,4 +69,4 @@ def fact():
 
 
 if __name__ == '__main__':
-    print fact()
+    print(fact())
