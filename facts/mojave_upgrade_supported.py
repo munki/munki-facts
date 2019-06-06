@@ -1,4 +1,4 @@
-'''Returns a fact to indicate if this machine can be upgraded to Sierra'''
+'''Returns a fact to indicate if this machine can be upgraded to Mojave'''
 
 # Based on
 # https://github.com/hjuutilainen/adminscripts/blob/master/
