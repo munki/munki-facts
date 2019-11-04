@@ -244,7 +244,7 @@ def is_supported_board_id():
 
 
 def fact():
-    '''Return our sierra_upgrade_supported fact'''
+    '''Return our mojave_upgrade_supported fact'''
     if is_virtual_machine():
         return {'mojave_upgrade_supported': True}
     if (is_supported_model() and is_supported_board_id() and
