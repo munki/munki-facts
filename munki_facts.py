@@ -1,13 +1,13 @@
-#!/usr/bin/python
+#!/usr/local/munki/python
 '''Processes python modules in the facts directory and adds the info they
 return to our ConditionalItems.plist'''
 
 from __future__ import absolute_import, print_function
 
-import imp
+import importlib
 import os
-import sys
 import plistlib
+import sys
 from xml.parsers.expat import ExpatError
 
 # pylint: disable=no-name-in-module
@@ -16,6 +16,7 @@ from CoreFoundation import CFPreferencesCopyAppValue
 
 
 def main():
+    # pylint: disable=too-many-locals
     '''Run all our fact plugins and collect their data'''
     module_dir = os.path.join(os.path.dirname(__file__), 'facts')
     facts = {}
@@ -28,12 +29,17 @@ def main():
 
     for name in fact_files:
         # load each file and call its fact() function
-        filename = os.path.join(module_dir, name + '.py')
+        file_path = os.path.join(module_dir, name + '.py')
         try:
-            module = imp.load_source(name, filename)
+            # Python 3.4 and higher only
+            spec = importlib.util.spec_from_file_location(name, file_path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
             facts.update(module.fact())
+        # pylint: disable=broad-except
         except BaseException as err:
-            print(u'Error %s in file %s' % (err, filename), file=sys.stderr)
+            print(u'Error %s in file %s' % (err, file_path), file=sys.stderr)
+        # pylint: enable=broad-except
 
     if facts:
         # Handle cases when facts return None - convert them to empty
@@ -52,7 +58,8 @@ def main():
         # read the current conditional items
         if os.path.exists(conditionalitemspath):
             try:
-                conditional_items = plistlib.readPlist(conditionalitemspath)
+                with open(conditionalitemspath, "rb") as file:
+                    conditional_items = plistlib.load(file)
             except (IOError, OSError, ExpatError) as err:
                 pass
 
@@ -61,7 +68,8 @@ def main():
 
         # and write them out
         try:
-            plistlib.writePlist(conditional_items, conditionalitemspath)
+            with open(conditionalitemspath, "wb") as file:
+                plistlib.dump(conditional_items, file)
         except (IOError, OSError) as err:
             print('Couldn\'t save conditional items: %s' % err, file=sys.stderr)
 
