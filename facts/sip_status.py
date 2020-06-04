@@ -14,7 +14,7 @@ def fact():
     except (IOError, OSError):
         stdout = 'Unknown'
 
-    return {'sip_status': stdout.strip()}
+    return {'sip_status': stdout.strip().decode('utf-8')}
 
 
 if __name__ == '__main__':
