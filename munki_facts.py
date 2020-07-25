@@ -1,4 +1,4 @@
-#!/usr/local/munki/python
+#!/usr/local/munki/munki-python
 '''Processes python modules in the facts directory and adds the info they
 return to our ConditionalItems.plist'''
 
