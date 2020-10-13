@@ -14,7 +14,7 @@ def fact():
     except (IOError, OSError):
         stdout = 'Unknown'
 
-    return {'gatekeeper_status': stdout.strip()}
+    return {'gatekeeper_status': stdout.strip().decode('utf-8')}
 
 
 if __name__ == '__main__':
