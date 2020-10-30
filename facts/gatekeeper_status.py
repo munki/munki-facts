@@ -9,12 +9,12 @@ def fact():
     '''Return the current Gatekeeper status'''
     try:
         proc = subprocess.Popen(['/usr/sbin/spctl', '--status'],
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text="UTF-8")
         stdout, _ = proc.communicate()
     except (IOError, OSError):
         stdout = 'Unknown'
 
-    return {'gatekeeper_status': stdout.strip().decode('utf-8')}
+    return {'gatekeeper_status': stdout.strip()}
 
 
 if __name__ == '__main__':
