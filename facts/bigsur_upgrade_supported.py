@@ -241,7 +241,7 @@ def fact():
     '''Return our bigsur_upgrade_supported fact'''
     if is_virtual_machine():
         return {'bigsur_upgrade_supported': True}
-    if (is_supported_model() and is_supported_board_id() and
+    if ((is_supported_model() or is_supported_board_id()) and
             is_supported_system_version()):
         return {'bigsur_upgrade_supported': True}
     return {'bigsur_upgrade_supported': False}
