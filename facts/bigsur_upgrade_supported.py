@@ -232,8 +232,7 @@ def is_supported_board_id():
         u'Mac-35C5E08120C7EEAF',
         u'Mac-E43C1C25D4880AD6',
         u'Mac-53FDB3D8DB8CA971'        
-        )
-        
+        )       
     board_id = get_board_id()
     return board_id in platform_support_values
 
