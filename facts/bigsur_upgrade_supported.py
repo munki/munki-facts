@@ -11,6 +11,12 @@
 # https://gist.github.com/pudquick/
 #         c7dd1262bd81a32663f0#file-get_platform-py-L22-L23
 
+# Big Sur changed the structure of the OS installer drastically
+# Information on what boardIDs and Models that are supported is buried in the installer found here:
+#   Install macOS Big Sur.app/Contents/SharedSupport/SharedSupport.dmg - mount this
+#       /Volumes/Shared Support/com_apple_MobileAsset_MacSoftwareUpdate/da4c0b39d73549c809a57e9b9951e380b28b122d.zip - decompress this, the name of the zip will most likely change with every OS update.
+#           da4c0b39d73549c809a57e9b9951e380b28b122d/AssetData/boot/PlatformSupport.plist
+
 
 from __future__ import absolute_import, print_function
 
@@ -79,9 +85,9 @@ def is_virtual_machine():
 
 
 def is_supported_model():
-    '''Returns False if model is in list of unsupported models,
-    True otherwise'''
-    non_supported_models = [
+    '''Returns True if model is in list of supported models,
+    False otherwise'''
+    supported_models = [
         u'MacBook10,1',
         u'MacBook8,1',
         u'MacBook9,1',
@@ -120,13 +126,15 @@ def is_supported_model():
         u'iMac18,3',
         u'iMac19,1',
         u'iMac19,2',
-        u'iMacPro1,1',
+        u'iMacPro1,1'    
     ]
     current_model = get_current_model()
-    if not current_model or current_model in non_supported_models:
+    if not current_model:
         return False
-    else:
+    elif current_model in supported_models:
         return True
+    else:
+        return False
 
 
 def get_minor_system_version():
@@ -161,69 +169,71 @@ def is_supported_board_id():
     '''Returns True if current board_id is in list of supported board_ids,
     False otherwise'''
     platform_support_values = (
-        u'Mac-06F11F11946D27C5',
-        u'Mac-06F11FD93F0323C5',
-        u'Mac-0CFF9C7C2B63DF8D',
-        u'Mac-112818653D3AABFC',
-        u'Mac-112B0A653D3AAB9C',
-        u'Mac-1E7E29AD0135F9BC',
         u'Mac-226CB3C6A851A671',
-        u'Mac-27AD2F918AE68F61',
-        u'Mac-2BD1B31983FE1663',
-        u'Mac-35C1E88140C3E6CF',
-        u'Mac-35C5E08120C7EEAF',
         u'Mac-36B6B6DA9CFCD881',
-        u'Mac-3CBD00234E554E41',
-        u'Mac-42FD25EABCABB274',
-        u'Mac-473D31EABEB93F9B',
-        u'Mac-4B682C642B45593E',
+        u'Mac-112818653D3AABFC',
+        u'Mac-9394BDF4BF862EE7',
+        u'Mac-AA95B1DDAB278B95',
+        u'Mac-CAD6701F7CEA0921',
         u'Mac-50619A408DB004DA',
-        u'Mac-53FDB3D8DB8CA971',
+        u'Mac-7BA5B2D9E42DDD94',
+        u'Mac-CFF7D910A743CAAF',
+        u'Mac-B809C3757DA9BB8D',
+        u'Mac-F305150B0C7DEEEF',
+        u'Mac-35C1E88140C3E6CF',
+        u'Mac-827FAC58A8FDFA22',
+        u'Mac-6FEBD60817C77D8A',
+        u'Mac-7BA5B2DFE22DDD8C',
+        u'Mac-827FB448E656EC26',
+        u'Mac-66E35819EE2D0D05',
+        u'Mac-BE0E8AC46FE800CC',
+        u'Mac-5A49A77366F81C72',
+        u'Mac-63001698E7A34814',
+        u'Mac-937CB26E2E02BB01',
+        u'Mac-FFE5EF870D7BA81A',
+        u'Mac-87DCB00F4AD77EEA',
+        u'Mac-A61BADE1FDAD7B05',
+        u'Mac-C6F71043CEAA02A6',
+        u'Mac-4B682C642B45593E',
+        u'Mac-1E7E29AD0135F9BC',
+        u'Mac-90BE64C3CB5A9AEB',
+        u'Mac-3CBD00234E554E41',
+        u'Mac-B4831CEBD52A0C4C',
+        u'Mac-E1008331FDC96864',
+        u'Mac-FA842E06C61E91C5',
+        u'Mac-81E3E92DD6088272',
+        u'Mac-06F11FD93F0323C5',
+        u'Mac-06F11F11946D27C5',
+        u'Mac-F60DEB81FF30ACF6',
+        u'Mac-473D31EABEB93F9B',
+        u'Mac-0CFF9C7C2B63DF8D',
+        u'Mac-9F18E312C5C2BF0B',
+        u'Mac-E7203C0F68AA0004',
+        u'Mac-65CE76090165799A',
+        u'Mac-CF21D135A7D34AA6',
+        u'Mac-112B0A653D3AAB9C',
+        u'Mac-DB15BD556843C820',
+        u'Mac-27AD2F918AE68F61',
+        u'Mac-937A206F2EE63C01',
+        u'Mac-77F17D7DA9285301',
+        u'Mac-9AE82516C7C6B903',
+        u'Mac-BE088AF8C5EB4FA2',
         u'Mac-551B86E5744E2388',
         u'Mac-564FBA6031E5946A',
-        u'Mac-5A49A77366F81C72',
-        u'Mac-5F9802EFE386AA28',
-        u'Mac-63001698E7A34814',
-        u'Mac-65CE76090165799A',
-        u'Mac-66E35819EE2D0D05',
-        u'Mac-6FEBD60817C77D8A',
-        u'Mac-747B1AEFF11738BE',
-        u'Mac-77F17D7DA9285301',
-        u'Mac-7BA5B2D9E42DDD94',
-        u'Mac-7BA5B2DFE22DDD8C',
-        u'Mac-7DF21CB3ED6977E5',
-        u'Mac-81E3E92DD6088272',
-        u'Mac-827FAC58A8FDFA22',
-        u'Mac-827FB448E656EC26',
-        u'Mac-87DCB00F4AD77EEA',
-        u'Mac-90BE64C3CB5A9AEB',
-        u'Mac-937A206F2EE63C01',
-        u'Mac-937CB26E2E02BB01',
-        u'Mac-9394BDF4BF862EE7',
-        u'Mac-9AE82516C7C6B903',
-        u'Mac-9F18E312C5C2BF0B',
-        u'Mac-A369DDC4E67F1C45',
         u'Mac-A5C67F76ED83108C',
-        u'Mac-A61BADE1FDAD7B05',
-        u'Mac-AA95B1DDAB278B95',
+        u'Mac-5F9802EFE386AA28',
+        u'Mac-747B1AEFF11738BE',
         u'Mac-AF89B6D9451A490B',
-        u'Mac-B4831CEBD52A0C4C',
-        u'Mac-B809C3757DA9BB8D',
-        u'Mac-BE088AF8C5EB4FA2',
-        u'Mac-BE0E8AC46FE800CC',
-        u'Mac-C6F71043CEAA02A6',
-        u'Mac-CAD6701F7CEA0921',
-        u'Mac-CF21D135A7D34AA6',
-        u'Mac-CFF7D910A743CAAF',
-        u'Mac-DB15BD556843C820',
-        u'Mac-E1008331FDC96864',
-        u'Mac-E43C1C25D4880AD6',
-        u'Mac-E7203C0F68AA0004',
         u'Mac-EE2EBD4B90B839A8',
-        u'Mac-F305150B0C7DEEEF',
-        u'Mac-F60DEB81FF30ACF6',
-        u'Mac-FA842E06C61E91C5',
-        u'Mac-FFE5EF870D7BA81A',        )
+        u'Mac-42FD25EABCABB274',
+        u'Mac-2BD1B31983FE1663',
+        u'Mac-7DF21CB3ED6977E5',
+        u'Mac-A369DDC4E67F1C45',
+        u'Mac-35C5E08120C7EEAF',
+        u'Mac-E43C1C25D4880AD6',
+        u'Mac-53FDB3D8DB8CA971'        
+        )
+        
     board_id = get_board_id()
     return board_id in platform_support_values
 
