@@ -154,6 +154,11 @@ def is_supported_system_version():
         return False
 
 
+def get_device_id():
+    '''Returns our device-id'''
+    return io_key_string_value("compatible")
+
+
 def get_board_id():
     '''Returns our board-id'''
     return io_key_string_value("board-id")
@@ -162,6 +167,46 @@ def get_board_id():
 def get_current_model():
     '''Returns model info'''
     return io_key_string_value("model")
+
+
+def is_supported_device_id():
+    '''Returns True if an item from supported_device_ids is contained within
+    current device_id, False otherwise'''
+    supported_device_ids = (
+        u'J274AP',
+        u'J314cAP',
+        u'J215AP',
+        u'J456AP',
+        u'J680AP',
+        u'J230AP',
+        u'J160AP',
+        u'X86LEGACYAP',
+        u'J214AP',
+        u'X589AMLUAP',
+        u'J314sAP',
+        u'J293AP',
+        u'J213AP',
+        u'J152FAP',
+        u'J780AP',
+        u'J132AP',
+        u'J223AP',
+        u'J185FAP',
+        u'J185AP',
+        u'J316cAP',
+        u'J174AP',
+        u'J137AP',
+        u'J214KAP',
+        u'J230KAP',
+        u'VMA2MACOSAP',
+        u'J140AAP',
+        u'J313AP',
+        u'VMM-x86_64',
+        u'J140KAP',
+        u'J457AP',
+        u'J316sAP'
+        )
+    device_id = get_device_id()
+    return any(device_id_item in device_id for device_id_item in supported_device_ids)
 
 
 def is_supported_board_id():
@@ -211,7 +256,7 @@ def is_supported_board_id():
         u'Mac-F60DEB81FF30ACF6',
         u'Mac-FFE5EF870D7BA81A',
         u'VMM-x86_64'
-        )       
+        )
     board_id = get_board_id()
     return board_id in platform_support_values
 
@@ -220,7 +265,7 @@ def fact():
     '''Return our monterey_upgrade_supported fact'''
     if is_virtual_machine():
         return {'monterey_upgrade_supported': True}
-    if ((is_supported_model() or is_supported_board_id()) and
+    if ((is_supported_model() or is_supported_board_id() or is_supported_device_id()) and
             is_supported_system_version()):
         return {'monterey_upgrade_supported': True}
     return {'monterey_upgrade_supported': False}
@@ -233,6 +278,8 @@ if __name__ == '__main__':
     print('is_supported_model:          %s' % is_supported_model())
     print('get_minor_system_version:    %s' % get_minor_system_version())
     print('is_supported_system_version: %s' % is_supported_system_version())
+    print('get_device_id:               %s' % get_device_id())
+    print('is_supported_device_id:      %s' % is_supported_device_id())
     print('get_board_id:                %s' % get_board_id())
     print('is_supported_board_id:       %s' % is_supported_board_id())
     print(fact())
