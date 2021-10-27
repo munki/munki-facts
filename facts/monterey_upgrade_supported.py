@@ -15,7 +15,10 @@
 #   Install macOS Monterey/Contents/SharedSupport/SharedSupport.dmg - mount this
 #       /Volumes/Shared Support/com_apple_MobileAsset_MacSoftwareUpdate/bc70a04218e8e8bd40d2472aecbb2a06773ba42b.zip - decompress this, the name of the zip will most likely change with every OS update.
 #           bc70a04218e8e8bd40d2472aecbb2a06773ba42b/AssetData/boot/PlatformSupport.plist
-
+#
+#
+# device_support_values are harvested from the full installer Distribution file. 
+# The macOS 12.0.1 Distribution from ProductID 002-23774 was found at http://swcdn.apple.com/content/downloads/39/60/002-23774-A_KNETE2LDIN/4ll6ahj3st7jhqfzzjt1bjp1nhwl4p4zx7/002-23774.English.dist
 
 from __future__ import absolute_import, print_function
 
@@ -135,35 +138,6 @@ def is_supported_model():
     else:
         return False
 
-
-def get_minor_system_version():
-    '''Returns 20 for Big Sur, 21 for Monterey, etc'''
-    darwin_version = int(os.uname()[2].split('.')[0])
-    return darwin_version - 4
-
-
-def is_supported_system_version():
-    '''Returns True if current macOS version is 10.9 through 11.x,
-    False otherwise'''
-    macos_minor_version = get_minor_system_version()
-    if macos_minor_version >= 17:
-        return False
-    elif macos_minor_version >= 9:
-        return True
-    else:
-        return False
-
-
-def get_board_id():
-    '''Returns our board-id'''
-    return io_key_string_value("board-id")
-
-
-def get_current_model():
-    '''Returns model info'''
-    return io_key_string_value("model")
-
-
 def is_supported_board_id():
     '''Returns True if current board_id is in list of supported board_ids,
     False otherwise'''
@@ -215,12 +189,80 @@ def is_supported_board_id():
     board_id = get_board_id()
     return board_id in platform_support_values
 
+def is_supported_device_id():
+    '''Returns True if current device_id is in list of supported device_ids,
+    False otherwise'''
+    device_support_values = (
+        u'J132AP', 
+        u'J137AP', 
+        u'J140AAP', 
+        u'J140KAP', 
+        u'J152FAP', 
+        u'J160AP', 
+        u'J174AP', 
+        u'J185AP', 
+        u'J185FAP', 
+        u'J213AP', 
+        u'J214AP', 
+        u'J214KAP', 
+        u'J215AP', 
+        u'J223AP', 
+        u'J230AP', 
+        u'J230KAP', 
+        u'J274AP', 
+        u'J293AP', 
+        u'J313AP', 
+        u'J314cAP', 
+        u'J314sAP', 
+        u'J316cAP', 
+        u'J316sAP'
+        u'J456AP', 
+        u'J457AP', 
+        u'J680AP', 
+        u'J780AP', 
+        u'VMA2MACOSAP', 
+        u'VMM-x86_64', 
+        u'X589AMLUAP', 
+        u'X86LEGACYAP' 
+        )       
+    device_id = get_device_id()
+    return device_id in device_support_values
+
+
+def get_minor_system_version():
+    '''Returns 20 for Big Sur, 21 for Monterey, etc'''
+    darwin_version = int(os.uname()[2].split('.')[0])
+    return darwin_version - 4
+
+
+def is_supported_system_version():
+    '''Returns True if current macOS version is 10.9 through 11.x,
+    False otherwise'''
+    macos_minor_version = get_minor_system_version()
+    if macos_minor_version >= 17:
+        return False
+    elif macos_minor_version >= 9:
+        return True
+    else:
+        return False
+
+def get_board_id():
+    '''Returns our board-id'''
+    return io_key_string_value("board-id")
+
+def get_device_id():
+    '''Returns our device-id'''
+    return sysctl("hw.target")
+
+def get_current_model():
+    '''Returns model info'''
+    return io_key_string_value("model")
 
 def fact():
     '''Return our monterey_upgrade_supported fact'''
     if is_virtual_machine():
         return {'monterey_upgrade_supported': True}
-    if ((is_supported_model() or is_supported_board_id()) and
+    if ((is_supported_model() or is_supported_board_id() or is_supported_device_id()) and
             is_supported_system_version()):
         return {'monterey_upgrade_supported': True}
     return {'monterey_upgrade_supported': False}
@@ -235,4 +277,6 @@ if __name__ == '__main__':
     print('is_supported_system_version: %s' % is_supported_system_version())
     print('get_board_id:                %s' % get_board_id())
     print('is_supported_board_id:       %s' % is_supported_board_id())
+    print('get_device_id:               %s' % get_device_id())
+    print('is_supported_device_id:       %s' % is_supported_device_id())
     print(fact())
