@@ -224,7 +224,8 @@ def is_supported_device_id():
         u'VMM-x86_64', 
         u'X589AMLUAP', 
         u'X86LEGACYAP' 
-        )       
+        )
+    device_support_values = [deviceid.lower() for deviceid in device_support_values]
     device_id = get_device_id()
     return device_id in device_support_values
 
@@ -252,7 +253,8 @@ def get_board_id():
 
 def get_device_id():
     '''Returns our device-id'''
-    return sysctl("hw.target")
+    deviceid = sysctl("hw.target")
+    return deviceid.lower()
 
 def get_current_model():
     '''Returns model info'''
