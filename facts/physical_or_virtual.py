@@ -9,12 +9,16 @@ import plistlib
 import subprocess
 
 from ctypes import CDLL, c_uint, byref, create_string_buffer
+from ctypes import cast, POINTER
 from ctypes.util import find_library
+
 libc = CDLL(find_library('c'))
 
 
-def sysctl(name, is_string=True):
+def sysctl(name, output_type=str):
     '''Wrapper for sysctl so we don't have to use subprocess'''
+    if isinstance(name, str):
+        name = name.encode('utf-8')
     size = c_uint(0)
     # Find out how big our buffer will be
     libc.sysctlbyname(name, None, byref(size), None, 0)
@@ -22,9 +26,16 @@ def sysctl(name, is_string=True):
     buf = create_string_buffer(size.value)
     # Re-run, but provide the buffer
     libc.sysctlbyname(name, buf, byref(size), None, 0)
-    if is_string:
-        return buf.value
-    else:
+    if output_type in (str, 'str'):
+        return buf.value.decode('UTF-8')
+    if output_type in (int, 'int'):
+        # complex stuff to cast the buffer contents to a Python int
+        if size.value == 4:
+            return cast(buf, POINTER(c_int32)).contents.value
+        if size.value == 8:
+            return cast(buf, POINTER(c_int64)).contents.value
+    if output_type == 'raw':
+        # sysctl can also return a 'struct' type; just return the raw buffer
         return buf.raw
 
 
