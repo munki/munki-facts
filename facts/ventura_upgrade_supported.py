@@ -159,13 +159,13 @@ def get_current_model():
     return io_key_string_value("model")
 
 def fact():
-    '''Return our Ventura_upgrade_supported fact'''
+    '''Return our ventura_upgrade_supported fact'''
     if is_virtual_machine():
-        return {'Ventura_upgrade_supported': True}
+        return {'ventura_upgrade_supported': True}
     if ((is_supported_model()) and
             is_supported_system_version()):
-        return {'Ventura_upgrade_supported': True}
-    return {'Ventura_upgrade_supported': False}
+        return {'ventura_upgrade_supported': True}
+    return {'ventura_upgrade_supported': False}
 
 
 if __name__ == '__main__':
