@@ -14,10 +14,10 @@
 # Information on supported models is buried in the installer found here:
 #   Install macOS Ventura.app/Contents/SharedSupport/SharedSupport.dmg - mount this
 #       /Volumes/Shared Support/com_apple_MobileAsset_MacSoftwareUpdate/42e79bd54bb7295a5b729d32cb2493217f5d88f0.zip 
-#		- decompress this, the name of the zip will most likely change with every OS update.
+#        - decompress this, the name of the zip will most likely change with every OS update.
 #           - Combining, sorting, and de-duping values from the following result in a list of supported models 
-#					- 'SupportedProductTypes' from 42e79bd54bb7295a5b729d32cb2493217f5d88f0/AssetData/boot/Restore.plist
-#					- 'SupportedModelProperties' from 42e79bd54bb7295a5b729d32cb2493217f5d88f0/AssetData/boot/PlatformSupport.plist
+#                    - 'SupportedProductTypes' from 42e79bd54bb7295a5b729d32cb2493217f5d88f0/AssetData/boot/Restore.plist
+#                    - 'SupportedModelProperties' from 42e79bd54bb7295a5b729d32cb2493217f5d88f0/AssetData/boot/PlatformSupport.plist
 
 
 from ctypes import CDLL, c_uint, byref, create_string_buffer
@@ -88,46 +88,46 @@ def is_supported_model():
     '''Returns True if model is in list of supported models,
     False otherwise'''
     supported_models = [
-		'iMac18,1',
-		'iMac18,2',
-		'iMac18,3',
-		'iMac19,1',
-		'iMac19,2',
-		'iMac20,1',
-		'iMac20,2',
-		'iMac21,1',
-		'iMac21,2',
-		'iMacPro1,1',
-		'iSim1,1',
-		'Mac13,1',
-		'Mac13,2',
-		'Mac14,2',
-		'Mac14,7',
-		'MacBook10,1',
-		'MacBookAir10,1',
-		'MacBookAir8,1',
-		'MacBookAir8,2',
-		'MacBookAir9,1',
-		'MacBookPro14,1',
-		'MacBookPro14,2',
-		'MacBookPro14,3',
-		'MacBookPro15,1',
-		'MacBookPro15,2',
-		'MacBookPro15,3',
-		'MacBookPro15,4',
-		'MacBookPro16,1',
-		'MacBookPro16,2',
-		'MacBookPro16,3',
-		'MacBookPro16,4',
-		'MacBookPro17,1',
-		'MacBookPro18,1',
-		'MacBookPro18,2',
-		'MacBookPro18,3',
-		'MacBookPro18,4',
-		'Macmini8,1',
-		'Macmini9,1',
-		'MacPro7,1',
-		'VirtualMac2,1'
+        'iMac18,1',
+        'iMac18,2',
+        'iMac18,3',
+        'iMac19,1',
+        'iMac19,2',
+        'iMac20,1',
+        'iMac20,2',
+        'iMac21,1',
+        'iMac21,2',
+        'iMacPro1,1',
+        'iSim1,1',
+        'Mac13,1',
+        'Mac13,2',
+        'Mac14,2',
+        'Mac14,7',
+        'MacBook10,1',
+        'MacBookAir10,1',
+        'MacBookAir8,1',
+        'MacBookAir8,2',
+        'MacBookAir9,1',
+        'MacBookPro14,1',
+        'MacBookPro14,2',
+        'MacBookPro14,3',
+        'MacBookPro15,1',
+        'MacBookPro15,2',
+        'MacBookPro15,3',
+        'MacBookPro15,4',
+        'MacBookPro16,1',
+        'MacBookPro16,2',
+        'MacBookPro16,3',
+        'MacBookPro16,4',
+        'MacBookPro17,1',
+        'MacBookPro18,1',
+        'MacBookPro18,2',
+        'MacBookPro18,3',
+        'MacBookPro18,4',
+        'Macmini8,1',
+        'Macmini9,1',
+        'MacPro7,1',
+        'VirtualMac2,1'
     ]
     current_model = get_current_model()
     if not current_model:
