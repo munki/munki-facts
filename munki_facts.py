@@ -4,7 +4,7 @@ return to our ConditionalItems.plist'''
 
 from __future__ import absolute_import, print_function
 
-import importlib
+import importlib.util
 import os
 import plistlib
 import sys
