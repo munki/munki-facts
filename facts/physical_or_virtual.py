@@ -57,7 +57,10 @@ def get_machine_type():
                                  'SPEthernetDataType', 'SPHardwareDataType'],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = proc.communicate()[0]
-        plist = plistlib.readPlistFromString(output)
+        try:
+            plist = plistlib.readPlistFromString(output)
+        except AttributeError:
+            plist = plistlib.loads(output)
         br_version = plist[1]['_items'][0]['boot_rom_version']
         if 'VMW' in br_version:
             return 'vmware'
@@ -65,8 +68,9 @@ def get_machine_type():
             return 'virtualbox'
         else:
             ethernet_vid = plist[0]['_items'][0]['spethernet_vendor-id']
-            if '0x1ab8' in ethernet_vid:
-                return 'parallels'
+            for i in ['0x1ab8', '0x1af4']:
+                if i in ethernet_vid:
+                    return 'parallels'
 
     except (IOError, KeyError, OSError):
         pass
