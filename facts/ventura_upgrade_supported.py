@@ -58,6 +58,8 @@ def io_key_string_value(keyname):
 
 def sysctl(name, output_type=str):
     '''Wrapper for sysctl so we don't have to use subprocess'''
+    if isinstance(name, str):
+        name = name.encode('utf-8')
     size = c_uint(0)
     # Find out how big our buffer will be
     libc.sysctlbyname(name, None, byref(size), None, 0)

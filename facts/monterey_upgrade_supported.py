@@ -239,7 +239,7 @@ def get_minor_system_version():
 
 
 def is_supported_system_version():
-    '''Returns True if current macOS version is 10.9 through 11.x,
+    '''Returns True if current macOS version is 10.9 through 13.x,
     False otherwise'''
     macos_minor_version = get_minor_system_version()
     if macos_minor_version >= 17:
