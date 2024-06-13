@@ -245,10 +245,18 @@ def sysctl(name, output_type=str):
         return buf.raw
 
 
+def get_macos_version():
+    return int(platform.mac_ver()[0].split('.')[0])
+
+
 def is_virtual_machine():
     '''Returns True if this is a VM, False otherwise'''
-    hv_vmm_present = sysctl('kern.hv_vmm_present', output_type=int)
-    return bool(hv_vmm_present)
+    if get_macos_version() >= 11:
+        hv_vmm_present = sysctl('kern.hv_vmm_present', output_type=int)
+        return bool(hv_vmm_present)
+    else:
+        cpu_features = sysctl('machdep.cpu.features').split()
+        return 'VMM' in cpu_features
 
 
 def get_current_model():
@@ -260,10 +268,6 @@ def is_supported_model(supported_models):
     '''Returns True if model is in list of supported models,
     False otherwise'''
     return get_current_model() in supported_models
-
-
-def get_macos_version():
-    return int(platform.mac_ver()[0].split('.')[0])
 
 
 def fact():
@@ -283,7 +287,8 @@ def fact():
 
 if __name__ == '__main__':
     # Debug/testing output when run directly
-    print('is_virtual_machine:          %s' % is_virtual_machine())
-    print('get_current_model:           %s' % get_current_model())
-    print('get_macos_version:           %s' % get_macos_version())
-    print(fact())
+    print('is_virtual_machine:\t\t%s' % is_virtual_machine())
+    print('get_current_model:\t\t%s' % get_current_model())
+    print('get_macos_version:\t\t%s' % get_macos_version())
+    for k, v in fact().items():
+        print(f'{k}:\t{v}')
